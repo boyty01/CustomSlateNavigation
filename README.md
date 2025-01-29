@@ -12,3 +12,7 @@ Assign custom navigation data asset in project settings under Game->Custom Slate
 ![image](https://github.com/user-attachments/assets/6fd3675b-6ad6-498c-ba9d-12bf657cd993)
 
 Restart the editor.
+
+## Limitations
+
+Custom Navigation data only accepts single key overrides for individual UINavigation and UINavigationAction's.  All default configs are removed if valid custom data is specified. To support multiple keys for a single input device, you'll need to customise the source code to handle arrays instead of individual values per device action property.  
