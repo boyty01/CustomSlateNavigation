@@ -22,3 +22,6 @@ By default, gamepad settings will not add custom Accept or Back key bindings to 
 ### Replaces all navigation behavior by default
 Custom navigation completely replaces the default navigation inputs, so if you want to keep any default behavior, you'll need to explicitly add it to the data asset.
 
+### Settings are applied on startup
+Navigation settings are applied on module startup so any changes made to the settings won't be reflected until you restart the editor/game. 
+
