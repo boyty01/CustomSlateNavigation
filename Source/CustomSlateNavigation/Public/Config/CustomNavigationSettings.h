@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, Config, Category = "Custom Slate Navigation", meta = (AllowedClasses = "/Script/CustomSlateNavigation.DataAsset.CustomNavigationData", ConfigRestartRequired = "true"))
 	TSoftObjectPtr<UDataAsset> CustomNavigationData;
 
+
+
+
 	static UCustomNavigationSettings* Get()
 	{
 		return GetMutableDefault<UCustomNavigationSettings>();

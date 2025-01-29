@@ -40,21 +40,51 @@ public:
 
         if (ConfigData)
         {
-            //set keys for keyboard
-            KeyEventRules.Add(ConfigData->KeyboardNavigation.UpKey, EUINavigation::Up);
-            KeyEventRules.Add(ConfigData->KeyboardNavigation.DownKey, EUINavigation::Down);
-            KeyEventRules.Add(ConfigData->KeyboardNavigation.LeftKey, EUINavigation::Left);
-            KeyEventRules.Add(ConfigData->KeyboardNavigation.RightKey, EUINavigation::Right);
-            KeyActionRules.Add(ConfigData->KeyboardNavigation.Accept, EUINavigationAction::Accept);
-            KeyActionRules.Add(ConfigData->KeyboardNavigation.Back, EUINavigationAction::Back); 
+            //set keys for keyboard navigation 
+            for (auto& KeyboardNavMap : ConfigData->KeyboardNavigation.GetMappedNavigation())
+            {
+                for (FKey Key : KeyboardNavMap.Value)
+                {
+                    KeyEventRules.Emplace(Key, KeyboardNavMap.Key);
+                }
+            }
 
-            // set keys for gamepad
-            KeyEventRules.Add(ConfigData->GamepadNavigation.UpKey, EUINavigation::Up);
-            KeyEventRules.Add(ConfigData->GamepadNavigation.DownKey, EUINavigation::Down);
-            KeyEventRules.Add(ConfigData->GamepadNavigation.LeftKey, EUINavigation::Left);
-            KeyEventRules.Add(ConfigData->GamepadNavigation.RightKey, EUINavigation::Right);
-            KeyActionRules.Add(ConfigData->GamepadNavigation.Accept, EUINavigationAction::Accept);
-            KeyActionRules.Add(ConfigData->GamepadNavigation.Back, EUINavigationAction::Back);
+            //set keys for keyboard navigation actions
+            for (auto& KeyboardNavMap : ConfigData->KeyboardNavigation.GetMappedActions())
+            {
+                for (FKey Key : KeyboardNavMap.Value)
+                {
+                    KeyActionRules.Emplace(Key, KeyboardNavMap.Key);
+                }
+            }
+
+            //set keys for gamepad navigation 
+            for (auto& GamepadNavMap : ConfigData->GamepadNavigation.GetMappedNavigation())
+            {
+                for (FKey Key : GamepadNavMap.Value)
+                {
+                    KeyEventRules.Emplace(Key, GamepadNavMap.Key);
+                }
+            }
+
+            // if changing virtual keys is not allowed, just map the defaults.
+            if (ConfigData->GamepadNavigation.bKeepVirtualKeyBindings)
+            {
+                KeyActionRules.Emplace(EKeys::Virtual_Back, EUINavigationAction::Back);
+                KeyActionRules.Emplace(EKeys::Virtual_Accept, EUINavigationAction::Accept);
+            }
+            else 
+            {
+                //set keys forgamepad navigation actions
+                for (auto& GamepadNavMap : ConfigData->GamepadNavigation.GetMappedActions())
+                {
+                    for (FKey Key : GamepadNavMap.Value)
+                    {
+                        KeyActionRules.Emplace(Key, GamepadNavMap.Key);
+                    }
+                }
+            }
+
             return;
         }
 

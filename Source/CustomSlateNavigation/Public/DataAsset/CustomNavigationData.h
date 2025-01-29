@@ -34,23 +34,42 @@ struct FKeyboardNavigationOverrides
     GENERATED_BODY()
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey UpKey = EKeys::W;
+    TArray<FKey> UpKey = { EKeys::W };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey DownKey = EKeys::S;
+    TArray<FKey> DownKey = { EKeys::S };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey LeftKey = EKeys::A;
+    TArray<FKey>LeftKey = { EKeys::A };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey RightKey = EKeys::D;
+    TArray<FKey> RightKey = { EKeys::D };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey Accept = EKeys::Enter;
+    TArray<FKey> Accept = {EKeys::Enter};
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey Back = EKeys::Escape;
+    TArray<FKey> Back = { EKeys::Escape };
 
+    TMap<EUINavigation, TArray<FKey>> GetMappedNavigation()
+    {
+        return TMap<EUINavigation, TArray<FKey>>
+        {
+            { EUINavigation::Up, UpKey },
+            { EUINavigation::Down, DownKey },
+            { EUINavigation::Left, LeftKey },
+            { EUINavigation::Right, RightKey },
+        };
+    }
+
+    TMap<EUINavigationAction, TArray<FKey>> GetMappedActions()
+    {
+        return TMap<EUINavigationAction, TArray<FKey>>
+        {
+            { EUINavigationAction::Accept, Accept },
+            { EUINavigationAction::Back, Back }
+        };
+    }
 };
 
 USTRUCT(BlueprintType)
@@ -58,24 +77,50 @@ struct FGamepadNavigationOverrides
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey UpKey = EKeys::Gamepad_DPad_Up;
+    /*
+    If this is true, Accept and Back gamepad key overrides will not be applied and will revert to the default Virtual_Accept and Virtual_Back keys based on platform inputs. Recommended to keep this
+    true if you're anticipating shipping to multiple platforms or input devices with different conventions.
+    */
+    UPROPERTY(EditAnywhere, Config, Category = "Navigation")
+    bool bKeepVirtualKeyBindings{ true };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey DownKey = EKeys::Gamepad_DPad_Down;
+    TArray<FKey> UpKey = { EKeys::Gamepad_DPad_Up };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey LeftKey = EKeys::Gamepad_DPad_Left;
+    TArray<FKey> DownKey = { EKeys::Gamepad_DPad_Down };
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey RightKey = EKeys::Gamepad_DPad_Right;
+    TArray<FKey> LeftKey = {EKeys::Gamepad_DPad_Left};
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey Accept = EKeys::Gamepad_FaceButton_Bottom;
+    TArray<FKey> RightKey = { EKeys::Gamepad_DPad_Right };
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation")
-    FKey Back = EKeys::Gamepad_FaceButton_Right;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation", meta = (EditCondition = "bKeepVirtualKeyBindings == false", EditConditionHides))
+    TArray<FKey> Accept = { EKeys::Gamepad_FaceButton_Bottom };
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Navigation", meta = (EditCondition = "bKeepVirtualKeyBindings == false", EditConditionHides))
+    TArray<FKey> Back = { EKeys::Gamepad_FaceButton_Right };
+
+    TMap<EUINavigation, TArray<FKey>> GetMappedNavigation()
+    {
+        return TMap<EUINavigation, TArray<FKey>>
+        {
+            { EUINavigation::Up, UpKey },
+            { EUINavigation::Down, DownKey },
+            { EUINavigation::Left, LeftKey },
+            { EUINavigation::Right, RightKey },
+        };
+    }
+
+    TMap<EUINavigationAction, TArray<FKey>> GetMappedActions()
+    {
+        return TMap<EUINavigationAction, TArray<FKey>>
+        {
+            { EUINavigationAction::Accept, Accept },
+            { EUINavigationAction::Back, Back }
+        };
+    }
 };
 
 UCLASS(BlueprintType, Config=Game, DefaultConfig)
@@ -90,4 +135,6 @@ public:
 
         UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Gamepad")
         FGamepadNavigationOverrides GamepadNavigation;
+
+
 };

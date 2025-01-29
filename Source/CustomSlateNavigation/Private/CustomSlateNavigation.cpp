@@ -50,15 +50,6 @@ void FCustomSlateNavigationModule::StartupModule()
             FSlateApplication::Get().SetNavigationConfig(MakeShared<FCustomNavigationConfig>(ConfigData));
             UE_LOG(LogClass, Log, TEXT("Custom Navigation data loaded."));
         }
-        else
-        {
-            UE_LOG(LogClass, Warning, TEXT("Custom Navigation data is null! Slate navigation may not function properly."));
-        }
-    }
-    else
-    {
-        UE_LOG(LogClass, Warning, TEXT("No Custom Navigation data assigned in project settings! Slate navigation may not function properly."));
-        return;
     }
 }
 
