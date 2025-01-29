@@ -17,7 +17,7 @@ Restart the editor.
 ## Notes
 
 ### Virtual keys for non-keyboard input
-By default, gamepad settings will not add custom Accept or Back key bindings to maintain support for multi-platform layouts using Virtual_Accept and Virtual_Back inputs.  If you're planning to support different platforms and input devices then it's recommended to leave this as is, if you want to explicitly set the gamepad button for Virtual keys then unsetting bKeepVirtualKeyBindings under gamepad navigation will allow you to the keys.
+By default, gamepad settings will not add custom Accept or Back key bindings to maintain support for multi-platform layouts using Virtual_Accept and Virtual_Back inputs.  If you're planning to support different platforms and input devices then it's recommended to leave this as is, if you want to explicitly set the gamepad button for Virtual keys then unsetting bKeepVirtualKeyBindings under gamepad navigation will allow you to set the keys.
 
 ### Replaces all navigation behavior by default
 Custom navigation completely replaces the default navigation inputs, so if you want to keep any default behavior, you'll need to explicitly add it to the data asset.
